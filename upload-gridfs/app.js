@@ -1,5 +1,5 @@
-    var express = require('express'); 
-    var app = express(); 
+    var express = require('express');
+    var app = express();
     var bodyParser = require('body-parser');
     var mongoose = require('mongoose');
     mongoose.connect('mongodb://127.0.0.1/gridfstest');
@@ -37,15 +37,18 @@
 
     var upload = multer({ //multer settings for single upload
         storage: storage
-    }).single('file');
+    }).single('fil');
 
     /** API path that will upload the files */
     app.post('/upload', function(req, res) {
         upload(req,res,function(err){
             if(err){
                  res.json({error_code:1,err_desc:err});
+                 //next(err);
                  return;
             }
+	     console.log(req.file.filename);
+//		 console.log(res.file);	     //alert(req.params.filename);
              res.json({error_code:0,err_desc:null});
         });
     });
@@ -54,7 +57,7 @@
         gfs.collection('ctFiles'); //set collection name to lookup into
 
         /** First check if file exists */
-        gfs.files.find({filename: req.params.filename}).toArray(function(err, files){
+        gfs.files.find({"metadata":{"originalname" : filename }}).toArray(function(err, files){
             if(!files || files.length === 0){
                 return res.status(404).json({
                     responseCode: 1,
