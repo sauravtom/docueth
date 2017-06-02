@@ -1,0 +1,43 @@
+<!DOCTYPE html> <html> <head>
+  <title>DocuETH DAPP</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' 
+type='text/css'> </head> 
+
+<body class="container">
+  <h1>File Upload Demo</h1> <!-- <div id="address"></div> -->
+  
+  <div class="table-responsive"> 
+    <div id="msg"></div>
+  </div>
+  
+  <!-- 
+    <h3>Address</h3><input type="text" id="address" /> 
+    <h3>Message</h3> <input type="text" id="message" /> 
+   -->
+  
+  <form action="http://ec2-54-215-233-117.us-west-1.compute.amazonaws.com:3002/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br>
+    <input type="submit">
+  </form>
+  
+  <!-- 
+  <a href="#" onclick="sendCoin()" class="btn btn-primary">Send</a>
+   --><!--  <span id="transactions"></span> -->
+ 
+ <br><br><h3>Incoming messages<h3/><br>
+
+  <TABLE id="dataTable" width="350px" border="1"cellpadding="700">
+		<TH>Message</TH><TH>Account</TH>
+		<TR>
+			<TD> <span id="transactions"></span> </TD>
+			<TD> <span id="account"></span> </TD>
+		</TR>
+  </TABLE>
+
+  </br> 
+</body> 
+  <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script> 
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script> <script src="app.js"></script> 
+
+</html>
