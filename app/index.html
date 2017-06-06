@@ -2,7 +2,10 @@
   <title>DocuETH DAPP</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' 
-type='text/css'> </head> 
+type='text/css'>
+
+
+</head> 
 
 <body class="container">
   <h1>File Upload Demo</h1> <!-- <div id="address"></div> -->
@@ -16,19 +19,27 @@ type='text/css'> </head>
     <h3>Message</h3> <input type="text" id="message" /> 
    -->
   
-  <form action="http://ec2-54-215-233-117.us-west-1.compute.amazonaws.com:3002/upload" method="post" enctype="multipart/form-data">
+ <form id="myForm" action="http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:3002/upload" method="post" enctype="multipart/form-data" >
     <input type="file" name="fil"><br>
-    <input type="submit">
+    <input value="Submit" type="submit">
   </form>
+
   
   <!-- 
   <a href="#" onclick="sendCoin()" class="btn btn-primary">Send</a>
    --><!--  <span id="transactions"></span> -->
+  <h3>Address</h3>
+  <input type="text" id="address" />
+  <h3> Message </h3>
+  <input type="text" id="message" />
+
+  <a href="#" onclick="sendCoin()" class="btn btn-primary">Send</a>
  
- <br><br><h3>Uploaded files<h3/><br>
+
+<div id="select_div"><a href="#" id="go">Upload</a></div>
 
   <TABLE id="dataTable" width="350px" border="1"cellpadding="700">
-		<TH>File name</TH><TH>Account</TH>
+		<TH>File name</TH><TH>P key</TH>
 		<TR>
 			<TD> <span id="transactions"></span> </TD>
 			<TD> <span id="account"></span> </TD>
@@ -38,6 +49,47 @@ type='text/css'> </head>
   </br> 
 </body> 
   <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script> 
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script> <script src="app.js"></script> 
+<!--  <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+  <script src="app.js"></script>
+
+
+  <script type="text/javascript">
+      $(document).ready(function(){
+                      $('#myForm').ajaxForm({
+                         // e.preventDefault();
+                         // console.log('file waiting to be uploaded');
+                         // var dat = "";
+                         // var formData = new FormData();
+                         // formData.append('file', $('input[type=file]')[0].files[0]);
+                          //console.log(formData);
+
+                          /*$.ajax({
+                              //type: 'POST',
+                              //url: 'http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:3002/upload',
+                              //data: $("submit").serialize(),
+                              data: formData,
+                              dataType: 'json',
+                              processData: false,
+                              contentType: false,
+                              success: function( result){
+                                      console.log(result)
+                                  },
+                              error: function( jqXhr, textStatus, errorThrown ){
+                                      console.log( errorThrown );
+                              }
+                          });*/
+			dataType: 'json',
+			success: processJson
+                         // alert("ajax working!!");
+
+                      });
+      });
+	function processJson(data){
+		alert(JSON.stringify(data));
+	}
+  </script>
+
 
 </html>

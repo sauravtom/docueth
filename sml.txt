@@ -1,0 +1,19 @@
+WARN [06-05|12:30:42] No etherbase set and no accounts found as default 
+INFO [06-05|12:30:42] Starting peer-to-peer node               instance=Geth/v1.6.1-stable-021c3c28/linux-amd64/go1.8.1
+INFO [06-05|12:30:42] Allocated cache and file handles         database=/home/ubuntu/docueth-alpha/geth/chaindata cache=128 handles=1024
+INFO [06-05|12:30:42] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Engine: ethash}"
+INFO [06-05|12:30:42] Disk storage enabled for ethash caches   dir=/home/ubuntu/docueth-alpha/geth/ethash count=3
+INFO [06-05|12:30:42] Disk storage enabled for ethash DAGs     dir=/home/ubuntu/.ethash                   count=2
+INFO [06-05|12:30:42] Initialising Ethereum protocol           versions="[63 62]" network=9866
+INFO [06-05|12:30:42] Loaded most recent local header          number=0 hash=d4e567…cb8fa3 td=17179869184
+INFO [06-05|12:30:42] Loaded most recent local full block      number=0 hash=d4e567…cb8fa3 td=17179869184
+INFO [06-05|12:30:42] Loaded most recent local fast block      number=0 hash=d4e567…cb8fa3 td=17179869184
+INFO [06-05|12:30:42] Starting P2P networking 
+INFO [06-05|12:30:44] IPC endpoint opened: /home/ubuntu/docueth-alpha/geth.ipc 
+INFO [06-05|12:30:44] RLPx listener up                         self=enode://6fbfd2a671f7805376efad0b1503e93e82cf5e8ddc96e2dbe0963c34474991c72551b43811246e502dd43a95fe676667b8ee383b26669f46a4c4d1dde470fa87@[::]:12000
+INFO [06-05|13:02:48] IPC endpoint closed: /home/ubuntu/docueth-alpha/geth.ipc 
+INFO [06-05|13:02:48] Blockchain manager stopped 
+INFO [06-05|13:02:48] Stopping Ethereum protocol 
+INFO [06-05|13:02:48] Ethereum protocol stopped 
+INFO [06-05|13:02:48] Transaction pool stopped 
+INFO [06-05|13:02:48] Database closed                          database=/home/ubuntu/docueth-alpha/geth/chaindata
