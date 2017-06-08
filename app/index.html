@@ -14,20 +14,13 @@ type='text/css'>
     <div id="msg"></div>
   </div>
   
-  <!-- 
-    <h3>Address</h3><input type="text" id="address" /> 
-    <h3>Message</h3> <input type="text" id="message" /> 
-   -->
-  
+<h3>Address to send File</h3>
+  <input type="text" id="address_file" />  
  <form id="myForm" action="http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:3002/upload" method="post" enctype="multipart/form-data" >
     <input type="file" name="fil"><br>
-    <input value="Submit" type="submit">
+    <input value="Submit" type="submit" class="btn btn-primary">
   </form>
-
-  
-  <!-- 
-  <a href="#" onclick="sendCoin()" class="btn btn-primary">Send</a>
-   --><!--  <span id="transactions"></span> -->
+   <a href="#" onclick="sendFile()" class="btn btn-primary">Send File</a>
   <h3>Address</h3>
   <input type="text" id="address" />
   <h3> Message </h3>
@@ -49,45 +42,22 @@ type='text/css'>
   </br> 
 </body> 
   <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script> 
-<!--  <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script> -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script> 
   <script src="app.js"></script>
 
 
   <script type="text/javascript">
+	var hash_received;
       $(document).ready(function(){
                       $('#myForm').ajaxForm({
-                         // e.preventDefault();
-                         // console.log('file waiting to be uploaded');
-                         // var dat = "";
-                         // var formData = new FormData();
-                         // formData.append('file', $('input[type=file]')[0].files[0]);
-                          //console.log(formData);
-
-                          /*$.ajax({
-                              //type: 'POST',
-                              //url: 'http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:3002/upload',
-                              //data: $("submit").serialize(),
-                              data: formData,
-                              dataType: 'json',
-                              processData: false,
-                              contentType: false,
-                              success: function( result){
-                                      console.log(result)
-                                  },
-                              error: function( jqXhr, textStatus, errorThrown ){
-                                      console.log( errorThrown );
-                              }
-                          });*/
 			dataType: 'json',
 			success: processJson
-                         // alert("ajax working!!");
-
                       });
       });
 	function processJson(data){
 		alert(JSON.stringify(data));
+		hash_received=JSON.stringify(data);
 	}
   </script>
 

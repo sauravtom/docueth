@@ -97,48 +97,57 @@ Steps to start a truffle project :
 $ nano truffle.js 
 ``` 
 Change "host" , "port" and "network_id" under "live" to your specifications. 
+
 2. Run the following to compile the original contracts and deploy them to your network 
 ```bash 
 $ truffle compile --network live 
 $ truffle migrate --network live 
 ``` 
 (Here the contract which we will be using can be found at /docueth/contracts/message.sol) 
+
 3. Now that the contracts are up and running, you can test to see if they are working correctly: 
 ```bash 
 $ truffle test --network live 
 ``` 
 (You can modify the test if you want to , by changing the file in /docueth/test folder) Once the tests are passed you can be sure that the contracts are correctly deployed and running. 
+
 4. Change the host address for the web app
     Go to "/docueth/app/javascripts" folder and edit line number 108 in the file  app.js : 
 ```javascript 
 window.web3 = new Web3(new Web3.providers.HttpProvider("http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:13080")); 
 ``` 
 inside HttpProvider, put "your_host_address:rpc_port_number". 
+
 5. Change the line number 22 of "index.html" in "/docueth/app" folder:
 ```HTML
 <form id="myForm" action="your_host_address:3002/upload" method="post" enctype="multipart/form-data" >
 ```
+
 6. Now we build and run the front end application in the app directory 
 ```bash
 $ npm run build
 $ truffle serve --network live --p 15080 
 ``` 
 (mention the port you want your app to run , by default it runs on 8080) 
+
 7. Open another terminal and start mongodb by 
 ```bash 
 $ sudo service mongodb start 
 $ mongo 
 ``` 
 (mongo console opens up , you can check the database manually) 
+
 8. Open another terminal and goto docueth/upload-gridfs and run 
 ```bash 
 $ node app.js 
 ``` 
+
 9. Check the localhost (or the network address of the running instance ) with the specific port number in a web browser. 
 Go to "http://your_host_address:15080" You can transfer messages from the message box to a particular account id as mentioned in the field or select file and transfer the hash to another 
 account. Click the "Choose File" button to select a file and then press "Submit". After pressing submit the document 
 is uploaded to the mongodb gridfs. You can check the files in the mongodb database by opening the mongo console and 
 type 
 ```bash
-> use gridfstest db.ctFiles.files.find()
+> use gridfstest 
+> db.ctFiles.files.find()
 ```

@@ -60,8 +60,14 @@ window.start = function(){
 						var ascii_string=web3.toAscii(data);
 						var msg_received = ascii_string.substring(ascii_string.lastIndexOf("<") + 1);
 						console.log(msg_received);
-						window.setStatus(msg_received,"transactions");
-						window.setStatus(fromAccount,"account");
+						try{
+							var parsedData = JSON.parse(msg_received);
+							window.setStatus(parsedData["id"],"transactions");
+                                                        window.setStatus(fromAccount,"account");
+						}catch(e){
+							window.setStatus(msg_received,"transactions");
+							window.setStatus(fromAccount,"account");
+						}
 					}
 				}
 			}
@@ -71,17 +77,40 @@ window.setStatus = function(message,id) {
 	var status = document.getElementById(id);
 	status.innerHTML = message;
 }
+window.sendFile = function(candidate){
+	try{
+		var meta;console.log(hash_received);
+		var addr= $("#address_file").val();
+        	var msg= hash_received;console.log(addr);
+		 var formatted_msg = "<<<<<"+msg;
+                Message.deployed().then(function(instance) {
+                        meta = instance;
+                        // return meta.coinBalanceOf.call(web3.eth.accounts[0]);
+                        return meta.sendCoin(addr, formatted_msg, {from: web3.eth.accounts[0]});
+                }).then(function(result) {
+                        console.log(result);
+                        alert("Transaction Successful!! File Sent !!");
+                }).catch(function(e) {
+                        console.log(e);
+                })
+
+        } catch (err) {
+                console.log(err);
+        }
+
+}
 window.sendCoin = function(candidate) {
 
 	try {
 
 		var meta;
-
+		//var addr2= $("#address_file");
+		//var msg2= JSON.stringify(hash_received);
 		var addr = $("#address").val();
 		var msg = $("#message").val();
 		var formatted_msg = "<<<<<"+msg;
 		Message.deployed().then(function(instance) {
-			meta = instance;
+			meta = instance;console.log(instance);
 			// return meta.coinBalanceOf.call(web3.eth.accounts[0]);
 			return meta.sendCoin(addr, formatted_msg, {from: web3.eth.accounts[0]});
 		}).then(function(result) {
@@ -105,7 +134,7 @@ $( document ).ready(function() {
 	else {
     		console.warn("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
     		// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    		window.web3 = new Web3(new Web3.providers.HttpProvider("http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:14080"));
+    		window.web3 = new Web3(new Web3.providers.HttpProvider("http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:13080"));
   	}
 	//console.log(Web3.providers.HttpProvider("http://localhost:12080"));
 	//console.log(web3);
