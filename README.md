@@ -68,7 +68,9 @@ Then in the console, run following commands:
 (This will give you the address of your first account. Run this command again to create another account where 
 transactions from other accounts will be received.) 
 ```bash
-> personal.unlockAccount(eth.accounts[0],"password",60000) admin.startRPC("0.0.0.0",13080)
+> personal.unlockAccount(eth.accounts[0],"password",60000) 
+
+> admin.startRPC("0.0.0.0",13080)
 ``` 
 (13080 is the rpc port number) 
 ```bash

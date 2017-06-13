@@ -16,7 +16,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 var algorithm = 'aes-256-cbc';
 var private_key = '019678ec59270e7b2769f39b36bf42a3651ed1e7f81b9dc8b06768dc55495926'
-
+var public_key = '019678ec59270e7b2769f39b36bf42a3651ed1e7f81b9dc8b06768dc55495926'
 
 function encrypt(name,res) {
 	var key = '14189dc35ae35e75ff31d7502e245cd9bc7803838fbfd5c773cdcd79b8a28bbd';
@@ -73,7 +73,7 @@ function encrypt(name,res) {
                 				console.log(files[0]);
 						var array = new Array(3);
 						array[0]=sha_hash; array[1]=id; array[2]=encrypted_key;
-						res.json({error_code:0,err_desc:null,hash:array[0],id:array[1],key:array[2]});
+						res.json({"error_code":0,"err_desc":null,"hash":array[0],"id":array[1],"key":array[2]});
 					});
 
 		        	});
@@ -84,45 +84,33 @@ function encrypt(name,res) {
         });
 }
 
-function viewFile(id) {
-	gfs.collection('ctFiles');
-	gfs.files.find({_id: id}).toArray(function(err, files){
+app.get('/received_file', function(req, res){
+        gfs.collection('ctFiles'); //set collection name to lookup into
+
+	var object = JSON.parse(req.query.object);
+	console.log(object.id);
+	var id = new mongoose.mongo.ObjectId(object.id);
+
+	var key_decipher = crypto.createDecipher(algorithm, public_key);
+        var input_key = object.key;
+        var decrypted_key = key_decipher.update(input_key,'hex','utf8');
+        decrypted_key += key_decipher.final('utf8');
+
+        // First check if file exists
+	gfs.files.find({"_id": id}).toArray(function(err, files){
 		if(!files || files.length === 0){
 			console.log("File not found");
 		}
 		console.log(files[0]);
+		var read_stream = gfs.createReadStream({_id: id, root: 'ctFiles'});
+		var decipher = crypto.createDecipher(algorithm, decrypted_key);
+		return read_stream.pipe(decipher).pipe(res);
 	});
-}
 
-function decrypt(filename) {
-	var decipher = crypto.createDecipher(algorithm, key);
-	var input = fs.createReadStream(filename);
-	var output = fs.createWriteStream(filename+'.dec');
-
-	gfs.files.find({filename: req.params.filename}).toArray(function(err, files){
-        	if(!files || files.length === 0){
-               		return res.status(404).json({
-            		       	responseCode: 1,
-                   		responseMessage: "error"
-               		});
-           	}
-           	/** create read stream */
-           	var readstream = gfs.createReadStream({
-               				filename: files[0].filename,
-               				root: "ctFiles"
-           			});
+});
 
 
-        });
-
-	input.pipe(decipher).pipe(output);
-
-	output.on('finish', function() {
-		console.log('Decrypted file written to disk!');
-	});
-}
-
-    /** Seting up server to accept cross-origin browser requests */
+/** Seting up server to accept cross-origin browser requests */
 app.use(function(req, res, next) { //allow cross origin requests
 	res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
         res.header("Access-Control-Allow-Origin", "*"); //to enable CORS
@@ -159,15 +147,9 @@ app.post('/upload', function(req, res) {
 	                //next(err);
         	        return;
         	}
-		//var array = new Array(3);
-		encrypt(req.file.filename,res);
-		//viewFile("5938f7fec5ce7165e550d775");
-		/*setTimeout(function () {
-			res.json({error_code:0,err_desc:null,hash:array[0],id:array[1]});
-		}, 1000)*/
 
-		//res.json({error_code:0,err_desc:null,hash:hash});
-		//res.send(hash);
+		encrypt(req.file.filename,res);
+
         });
 });
 

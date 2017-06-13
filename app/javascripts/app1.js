@@ -19,7 +19,6 @@ import message_artifacts from '../../build/contracts/message.json'
 
 var Message = contract(message_artifacts);
 //var express = require("express");
-var msg_received;
 
 window.add = function addRow() {
 
@@ -59,21 +58,16 @@ window.start = function(){
 						//input message is retrieved from the transaction
 						data=web3.eth.getTransaction(tx).input;
 						var ascii_string=web3.toAscii(data);
-						try{
-							msg_received = ascii_string.substring(ascii_string.lastIndexOf("<") + 1,ascii_string.lastIndexOf("}")+1);
-							console.log(msg_received);
-							console.log(typeof(msg_received));
-							var parsedData = JSON.parse(msg_received);
-							console.log(parsedData);
-							var object_id=parsedData["id"];
-							window.setStatus(object_id.link("http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:3002/received_file?object="+encodeURIComponent(msg_received)),"transactions");
-                                                        window.setStatus(fromAccount,"account");
-						}catch(e){
-							msg_received = ascii_string.substring(ascii_string.lastIndexOf("<")+1); 
-                                                   	console.log(msg_received);
-							window.setStatus(msg_received,"transactions");console.log(e);
+						var msg_received = ascii_string.substring(ascii_string.lastIndexOf("<") + 1);
+						console.log(msg_received);
+				//		try{
+				//			var parsedData = JSON.parse(msg_received);
+				//			window.setStatus(parsedData["id"],"transactions");
+                                  //                      window.setStatus(fromAccount,"account");
+				//		}catch(e){
+							window.setStatus(msg_received,"transactions");
 							window.setStatus(fromAccount,"account");
-						}
+				//		}
 					}
 				}
 			}
