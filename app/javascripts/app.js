@@ -19,6 +19,7 @@ import message_artifacts from '../../build/contracts/message.json'
 
 var Message = contract(message_artifacts);
 //var express = require("express");
+var msg_received;
 
 window.add = function addRow() {
 
@@ -58,14 +59,19 @@ window.start = function(){
 						//input message is retrieved from the transaction
 						data=web3.eth.getTransaction(tx).input;
 						var ascii_string=web3.toAscii(data);
-						var msg_received = ascii_string.substring(ascii_string.lastIndexOf("<") + 1);
-						console.log(msg_received);
 						try{
+							msg_received = ascii_string.substring(ascii_string.lastIndexOf("<") + 1,ascii_string.lastIndexOf("}")+1);
+							console.log(msg_received);
+							console.log(typeof(msg_received));
 							var parsedData = JSON.parse(msg_received);
-							window.setStatus(parsedData["id"],"transactions");
+							console.log(parsedData);
+							var object_id=parsedData["id"];
+							window.setStatus(object_id.link("http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:4002/received_file?object="+encodeURIComponent(msg_received)),"transactions");
                                                         window.setStatus(fromAccount,"account");
 						}catch(e){
-							window.setStatus(msg_received,"transactions");
+							msg_received = ascii_string.substring(ascii_string.lastIndexOf("<") +1);
+                                                        console.log(msg_received);
+							window.setStatus(msg_received,"transactions");console.log(e);
 							window.setStatus(fromAccount,"account");
 						}
 					}
@@ -134,7 +140,7 @@ $( document ).ready(function() {
 	else {
     		console.warn("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
     		// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    		window.web3 = new Web3(new Web3.providers.HttpProvider("http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:13080"));
+    		window.web3 = new Web3(new Web3.providers.HttpProvider("http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:12080"));
   	}
 	//console.log(Web3.providers.HttpProvider("http://localhost:12080"));
 	//console.log(web3);
