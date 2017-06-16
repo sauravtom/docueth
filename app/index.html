@@ -15,9 +15,15 @@ type='text/css'>
   </div>
   
 <h3>Address to send File</h3>
-  <input type="text" id="address_file" />  
+  <input type="text" id="address_file" /><br>
+  <h3> Public Key </h3><br> 
+ <form id="keyform" action="http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:3002/public_key" method="post" enctype="multipartt/form-data" >
+ 	<textarea name="key" cols=64 rows=6></textarea><br>
+	<input value="Encrypt" type="submit" class="btn btn-primary">
+ </form> 
  <form id="myForm" action="http://ec2-52-52-25-62.us-west-1.compute.amazonaws.com:3002/upload" method="post" enctype="multipart/form-data" >
     <input type="file" name="fil"><br>
+    
     <input value="Submit" type="submit" class="btn btn-primary">
   </form>
    <a href="#" onclick="sendFile()" class="btn btn-primary">Send File</a>
@@ -54,7 +60,13 @@ type='text/css'>
 			dataType: 'json',
 			success: processJson
                       });
+		      $('#keyform').ajaxForm({
+                        
+			dataType: 'json',
+                        success: processJson
+                      });
       });
+
 	function processJson(data){
 		alert(JSON.stringify(data));
 		hash_received=JSON.stringify(data);
